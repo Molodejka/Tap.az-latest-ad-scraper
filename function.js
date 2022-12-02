@@ -14,7 +14,6 @@ exports.GetLastAdv = function() {
         try {
             var data = fs.readFileSync('database.json');
             var myObject = JSON.parse(data);
-            console.log(myObject)
             // html from get request
             await request(config.link, function(error, response, body) {
                 // last adv html
@@ -36,18 +35,15 @@ exports.GetLastAdv = function() {
 
 
                     for (let k in myObject.ads) {
-                        console.log(k)
                         if (myObject.ads[k].link === advLink) {
                             return true;
                         }
                     }
-
-
                     myObject.ads.push({
                         link: advLink
                     });
                     fs.writeFileSync("database.json", JSON.stringify(myObject))
-                    
+
 
                     // name
                     const advName = $('.products-link > .products-name', firstAdvHtml).text();
@@ -59,7 +55,6 @@ exports.GetLastAdv = function() {
                         $('.products-link .price-cur', firstAdvHtml).text();
                     // change last time in memory
                     lastAdvTime = advAddedTime;
-                    console.log(advPrice)
                     resolve({
                         advName,
                         advLink,
